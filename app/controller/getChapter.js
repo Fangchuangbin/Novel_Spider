@@ -7,7 +7,7 @@ const moment = require('moment');
 class getChapterController extends Controller {
   async default() {
     const { ctx } = this;
-    const getBook = await ctx.curl('http://192.168.0.5:7001/getBook1', {
+    const getBook = await ctx.curl('http://192.168.0.5:7001/getBook', {
       dataType: 'json',
       timeout: 10000
     });
