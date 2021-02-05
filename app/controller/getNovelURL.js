@@ -2,8 +2,9 @@
 
 const Controller = require('egg').Controller;
 const Crawler = require('crawler');
+const fs = require('fs');
 //单本
-class getBookURLController extends Controller {
+class getNovelURLController extends Controller {
   async default() {
     const { ctx } = this;
     const targetURL = this.config.basic.target.url;
@@ -28,6 +29,20 @@ class getBookURLController extends Controller {
             resolve(Array.from(new Set(spiderData)));
           }
           done();
+          fs.writeFile('1.txt', '<br>123<br>ABc',  function(err) {
+            if (err) {
+             return console.error(err);
+            }
+            console.log("数据写入成功！");
+            console.log("--------我是分割线-------------")
+            console.log("读取写入的数据！");
+            fs.readFile('1.txt', function (err, data) {
+              if (err) {
+                return console.error(err);
+               }
+              console.log("异步读取文件数据: " + data.toString());
+            });
+         });
         }
       });
       c.queue(targetURL);
@@ -41,4 +56,4 @@ class getBookURLController extends Controller {
   }
 }
 
-module.exports = getBookURLController;
+module.exports = getNovelURLController;

@@ -5,7 +5,7 @@ const Crawler = require('crawler');
 const moment = require('moment');
 
 //内容
-class getContentController extends Controller {
+class getNovelChapterController extends Controller {
   async default() {
     const { ctx } = this;
     const getChapter = await ctx.curl(ctx.request.host + '/getChapter', {
@@ -13,7 +13,7 @@ class getContentController extends Controller {
       timeout: 10000
     });
     if(getChapter.status !== 200) {
-      console.log('ERROR => STATUS:' + getBook.status + ' => TIME:' + moment().format('YYYY-MM-DD hh:mm:ss') + ' => HOST:' + ctx.request.host + ' => URL:' + ctx.request.url)
+      console.log('ERROR => STATUS:' + getNovel.status + ' => TIME:' + moment().format('YYYY-MM-DD hh:mm:ss') + ' => HOST:' + ctx.request.host + ' => URL:' + ctx.request.url)
     }else{
       const spiderPromise = new Promise((resolve, reject) => {
         var c = new Crawler({
@@ -36,7 +36,7 @@ class getContentController extends Controller {
             done();
           }
         });
-        c.queue(getBook.data.resultData);
+        c.queue(getNovel.data.resultData);
       })
       const resultData = await spiderPromise;
       ctx.body = {
@@ -47,4 +47,4 @@ class getContentController extends Controller {
   }
 }
 
-module.exports = getContentController;
+module.exports = getNovelChapterController;
