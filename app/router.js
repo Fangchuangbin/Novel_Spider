@@ -5,6 +5,7 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.get('/getBook', controller.getBook.default);
-  router.get('/getChapter', controller.getChapter.default);
+  router.get('/getBookURL', controller.getBookURL.default);
+  router.get('/getBookMain', controller.getBookMain.default);
+  router.get('/getContent', controller.getContent.default);
 };

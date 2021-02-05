@@ -1,5 +1,5 @@
 {
-  "name": "novel_eggjs",
+  "name": "novel_spider",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -27,8 +27,8 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-novel_eggjs",
-    "stop": "egg-scripts stop --title=egg-server-novel_eggjs",
+    "start": "egg-scripts start --daemon --title=egg-server-novel_spider",
+    "stop": "egg-scripts stop --title=egg-server-novel_spider",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",

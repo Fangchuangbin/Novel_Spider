@@ -18,6 +18,14 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = [];
 
+  //参数配置
+  config.basic = {
+    //目标站点URL
+    target: {
+      url: 'https://www.ranwen8.com', // URL结尾不带斜杆
+    }
+  }
+
   // 资源配置
   config.static = {
     prefix: '/',
@@ -30,9 +38,9 @@ module.exports = appInfo => {
     client: {
       host: '120.78.188.217',
       port: '3306',
-      user: 'novel_eggjs',
+      user: 'novel_spider',
       password: 'qiVhQcLct1hx',
-      database: 'novel_eggjs',
+      database: 'novel_spider',
     },
     // 是否加载到 app 上，默认开启
     app: true,
