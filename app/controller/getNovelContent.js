@@ -3,8 +3,8 @@
 const Controller = require('egg').Controller;
 const Crawler = require('crawler');
 const moment = require('moment');
+const crypto = require('crypto');
 
-//章节
 class getNovelContentController extends Controller {
   async default() {
     const { ctx } = this;
@@ -14,7 +14,7 @@ class getNovelContentController extends Controller {
       timeout: 10000
     });
     if(getNovelURL.status !== 200) {
-      console.log('ERROR => STATUS:' + getNovelURL.status + ' => TIME:' + moment().format('YYYY-MM-DD hh:mm:ss') + ' => HOST:' + ctx.request.host + ' => URL:' + ctx.request.url)
+      console.log('出现错误 => 状态码：' + getNovelURL.status + ' => 时间：' + moment().format('YYYY-MM-DD hh:mm:ss') + ' => 请求主机：' + ctx.request.host + ' => 请求URL：' + ctx.request.url)
     }else{
       const spiderPromise = new Promise((resolve, reject) => {
         var c = new Crawler({
@@ -29,11 +29,11 @@ class getNovelContentController extends Controller {
             }else{
               var $ = response.$;
               $('.book_list').find('ul').eq(1).find('a').each(function() {
-                const url = $(this).attr('href');
-                const name = $(this).text();
-                const chapterMerge = { url, name };
-                if(chapterMerge.url.indexOf('.html') !== -1) {
-                  chapterMerge.url = url.replace('.html', '');
+                var url = $(this).attr('href');
+                if(url.indexOf('.html') !== -1) {
+                  const name = $(this).text();
+                  url = url.replace('.html', '');
+                  const chapterMerge = url + "###" + name;
                   spiderChapter[0] = chapterMerge;
                   spiderData.chapter = spiderData.chapter.concat(spiderChapter);
                 }
@@ -47,14 +47,25 @@ class getNovelContentController extends Controller {
               spiderData.description = $('.bookinfo_intro').text(); // 描述
               if(spiderData.update_status == 'a') { spiderData.update_status = 1; }else{ spiderData.update_status = 0; } // 0 => 连载，1 => 完结
               spiderData.chapter = Array.from(new Set(spiderData.chapter)); // 去重
-              // spiderData.chapter = spiderData.chapter.reverse(); // 倒叙
               spiderData.description = spiderData.description.replace(/\s+/g, ''); // 过滤空格
+              // spiderData.chapter = spiderData.chapter.reverse(); // 倒叙
+              const key = crypto.createHash('md5').update(spiderData.name).digest('hex'); // 文件秘钥
+              const setNovelContent = ctx.service.setNovelContent.default(spiderData, key); // 入库
 
-              const setNovelContent = ctx.service.setNovelContent.default(spiderData); // 入库
+              // 章节加入任务列表
+              const getNovelChapter = ctx.curl(ctx.request.host + '/getNovelChapter', {
+                dataType: 'json',
+                method: 'post',
+                timeout: [ 5000, 10800000 ],
+                data: { key, name: spiderData.name }
+              });
+              console.log("章节加入任务列表成功 => " + JSON.stringify(getNovelChapter));
+
               resolve(setNovelContent);
             }
             done();
-            console.log('DONE => TIME:' + moment().format('YYYY-MM-DD hh:mm:ss'))
+            console.log('执行完毕 => 时间：' + moment().format('YYYY-MM-DD hh:mm:ss'));
+            
           }
         });
         c.queue(getNovelURL.data.result);

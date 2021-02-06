@@ -2,6 +2,8 @@
 
 'use strict';
 
+const path = require('path');
+
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -26,9 +28,17 @@ module.exports = appInfo => {
     }
   }
 
+  // 安全策略
+  config.security = {
+    csrf: {
+      enable: false
+    }
+  };
+
   // 资源配置
   config.static = {
     prefix: '/',
+    dir: path.join(appInfo.baseDir, '/'),
     buffer: false,
     preload: false
   };

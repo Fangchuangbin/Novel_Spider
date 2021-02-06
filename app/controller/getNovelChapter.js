@@ -3,47 +3,87 @@
 const Controller = require('egg').Controller;
 const Crawler = require('crawler');
 const moment = require('moment');
+const fs = require('fs');
 
-//内容
 class getNovelChapterController extends Controller {
   async default() {
     const { ctx } = this;
-    const getChapter = await ctx.curl(ctx.request.host + '/getChapter', {
-      dataType: 'json',
-      timeout: 10000
-    });
-    if(getChapter.status !== 200) {
-      console.log('ERROR => STATUS:' + getNovel.status + ' => TIME:' + moment().format('YYYY-MM-DD hh:mm:ss') + ' => HOST:' + ctx.request.host + ' => URL:' + ctx.request.url)
-    }else{
+    const targetURL = this.config.basic.target.url;
+    const request = ctx.request.body;
+    const getNovelChapter = await ctx.service.getNovelChapter.default(request);
+    if(getNovelChapter.status == 0) { // 查询是否存在记录
+      var uri = getNovelChapter.uri;
+      var key = getNovelChapter.key;
+      // 分割
+      var chapter = getNovelChapter.chapter;
+      var chapterURL = [];
+      for(var i = 0; i<chapter.length; i++) {
+        var chapterSplit = getNovelChapter.chapter[i].split('###');
+        chapterURL = chapterURL.concat(targetURL + uri + chapterSplit[0] + '.html');
+      }
+      console.log(chapterURL)
       const spiderPromise = new Promise((resolve, reject) => {
         var c = new Crawler({
-          maxConnections : 10,
-          callback: function (error, res, done) {
-            var spiderData = [];
-            var spiderFilter = '';
-            if(error){
+          maxConnections : 1,
+          rateLimit: 2000,
+          callback: function (error, response, done) {
+            var spiderData = { content: null };
+            if(error) {
               console.log(error);
+              reject(error);
             }else{
-              var $ = res.$;
-              $('a').each(function() {
-                spiderFilter = $(this).attr('href');
-                if(spiderFilter.indexOf('.html') !== -1) {
-                  spiderData = spiderData.concat(spiderFilter);
-                }
-              })
+              var $ = response.$;
+              spiderData.content = $('.contentbox').html(); // 内容
+              spiderData.content = spiderData.content.substring(spiderData.content.indexOf("<br>", 0) + 4); // 过滤
+              if(fs.existsSync('static/' + key)) { // 判断目录
+                writeFile();
+                console.log('目录已存在 => 下一步：写入数据');
+              }else{
+                console.log('成功创建目录 => 下一步：写入数据');
+                fs.mkdirSync('static/' + key, function(err) { // 创建目录
+                  if(err) {
+                    return console.error(err);
+                  }else{
+                    writeFile();
+                  }
+                })
+              }
+              // 写入TXT
+              function writeFile() {
+                var chapterURI = response.options.uri;
+                chapterURI = chapterURI.replace(targetURL ,'');
+                chapterURI = chapterURI.replace(uri ,'');
+                chapterURI = chapterURI.replace('.html' ,'');
+                fs.writeFile('static/' + key + '/' + chapterURI + '.html', spiderData.content, function(err) {
+                  if (err) {
+                    return console.error(err);
+                  }else{
+                    console.log('成功写入数据 => ' + '时间：' + moment().format('YYYY-MM-DD hh:mm:ss'));
+                  }
+                });
+              }
+              resolve(spiderData);
             }
-            resolve(Array.from(new Set(spiderData)));
             done();
+            console.log('执行完毕 => 时间：' + moment().format('YYYY-MM-DD hh:mm:ss'));
           }
         });
-        c.queue(getNovel.data.resultData);
+        c.queue(chapterURL);
       })
-      const resultData = await spiderPromise;
+      const result = await spiderPromise;
+      const doneNovelChapter = await ctx.service.doneNovelChapter.default(key);
       ctx.body = {
         status: 200,
-        resultData
+        result,
+        doneNovelChapter
+      };
+    }else{
+      ctx.body = {
+        status: 400
       };
     }
+    
+    
   }
 }
 
