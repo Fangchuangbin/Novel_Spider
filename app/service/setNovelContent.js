@@ -25,6 +25,14 @@ class SetNovelContentService extends Service {
       const setNovelContent = await app.mysql.insert('novel_content', { key, recommend_status, update_status, update_time, uri, name, written, writer, category, description, all_chapter, off_chapter: all_chapter })
       if(setNovelContent.affectedRows === 1) {
         result.message = '新建入库成功 => ' + '时间：' + moment().format('YYYY-MM-DD hh:mm:ss');
+        //章节加入任务列表
+        const getNovelChapter = await ctx.curl(ctx.request.host + '/getNovelChapter', {
+          dataType: 'json',
+          method: 'post',
+          timeout: 50000000,
+          data: { key, name }
+        });
+        console.log("章节加入任务列表成功 => " + JSON.stringify(getNovelChapter));
       }else {
         result.message = '新建入库失败 =>' + '时间：' + moment().format('YYYY-MM-DD hh:mm:ss');
       }
@@ -41,6 +49,14 @@ class SetNovelContentService extends Service {
       const updateNovelContent = await app.mysql.update('novel_content', { off_chapter, all_chapter, update_time, update_status }, { where: { id: selectNovelContent.id, key: selectNovelContent.key, name: selectNovelContent.name } });
       if(updateNovelContent.affectedRows === 1) {
         result.setMessage = '更新入库成功 => ' + '时间：' + moment().format('YYYY-MM-DD hh:mm:ss');
+        //章节加入任务列表
+        const getNovelChapter = ctx.curl(ctx.request.host + '/getNovelChapter', {
+          dataType: 'json',
+          method: 'post',
+          timeout: 50000000,
+          data: { key, name }
+        });
+        console.log("章节加入任务列表成功 => " + JSON.stringify(getNovelChapter));
       }else {
         result.setMessage = '更新入库失败 => 详情:' + setNovelContent.message;
       }

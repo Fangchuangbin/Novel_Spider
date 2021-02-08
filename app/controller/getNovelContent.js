@@ -19,7 +19,7 @@ class getNovelContentController extends Controller {
       const spiderPromise = new Promise((resolve, reject) => {
         var c = new Crawler({
           maxConnections : 1,
-          rateLimit: 2000,
+          rateLimit: 5000,
           callback: function (error, response, done) {
             var spiderData = { uri: null, name: null, written: null, update_status: null, writer: null, category: null, description: null, chapter: [] };
             var spiderChapter = [];
@@ -51,25 +51,16 @@ class getNovelContentController extends Controller {
               // spiderData.chapter = spiderData.chapter.reverse(); // 倒叙
               const key = crypto.createHash('md5').update(spiderData.name).digest('hex'); // 文件秘钥
               const setNovelContent = ctx.service.setNovelContent.default(spiderData, key); // 入库
-
-              // 章节加入任务列表
-              const getNovelChapter = ctx.curl(ctx.request.host + '/getNovelChapter', {
-                dataType: 'json',
-                method: 'post',
-                timeout: [ 5000, 10800000 ],
-                data: { key, name: spiderData.name }
-              });
-              console.log("章节加入任务列表成功 => " + JSON.stringify(getNovelChapter));
-
               resolve(setNovelContent);
             }
             done();
-            console.log('执行完毕 => 时间：' + moment().format('YYYY-MM-DD hh:mm:ss'));
             
+            console.log('执行完毕 => 时间：' + moment().format('YYYY-MM-DD hh:mm:ss'));
           }
         });
         c.queue(getNovelURL.data.result);
       })
+
       const result = await spiderPromise;
       ctx.body = {
         getStatus: getNovelURL.status,

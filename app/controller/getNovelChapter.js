@@ -24,8 +24,7 @@ class getNovelChapterController extends Controller {
       console.log(chapterURL)
       const spiderPromise = new Promise((resolve, reject) => {
         var c = new Crawler({
-          maxConnections : 1,
-          rateLimit: 2000,
+          maxConnections : 5,
           callback: function (error, response, done) {
             var spiderData = { content: null };
             if(error) {
@@ -37,7 +36,7 @@ class getNovelChapterController extends Controller {
               spiderData.content = spiderData.content.substring(spiderData.content.indexOf("<br>", 0) + 4); // 过滤
               if(fs.existsSync('static/' + key)) { // 判断目录
                 writeFile();
-                console.log('目录已存在 => 下一步：写入数据');
+                console.log('目录已存在 => 下一步：写入数据' + ' => 秘钥：' + key);
               }else{
                 console.log('成功创建目录 => 下一步：写入数据');
                 fs.mkdirSync('static/' + key, function(err) { // 创建目录
@@ -58,7 +57,7 @@ class getNovelChapterController extends Controller {
                   if (err) {
                     return console.error(err);
                   }else{
-                    console.log('成功写入数据 => ' + '时间：' + moment().format('YYYY-MM-DD hh:mm:ss'));
+                    console.log('成功写入数据 => ' + '时间：' + moment().format('YYYY-MM-DD hh:mm:ss') + ' => URI：' + chapterURI);
                   }
                 });
               }
@@ -74,8 +73,7 @@ class getNovelChapterController extends Controller {
       const doneNovelChapter = await ctx.service.doneNovelChapter.default(key);
       ctx.body = {
         status: 200,
-        result,
-        doneNovelChapter
+        result
       };
     }else{
       ctx.body = {
