@@ -1,0 +1,41 @@
+<header>
+  <div class="header-navbar">
+    <div class="container">
+      <div class="row">
+        <p class="col text-left">
+          <a class="homepage" href="">设为首页</a>
+          <a class="collect" href="">收藏本站</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="header-banner py-2">
+    <div class="container py-1">
+      <div class="row">
+        <div class="col-md-3 logo"><a href="/" title="{{ title }}"></a></div>
+        <div class="col-md-6">
+          <div class="search">
+            <input type="text" placeholder="请输入关键字...">
+            <button type="submit">搜索</button>
+          </div>
+        </div>
+        <div class="d-none d-md-block col-md-3">
+          <div class="user">
+            <a class="register text-dark" href="">注册</a>
+            <a class="signin text-dark" href="">登录</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header-nav">
+    <div class="container">
+      <ul>
+        <li><a href="/">网站首页</a></li>
+        {% for item in category %}
+        <li><a href="/list_{{ item.id }}/">{{ item.category }}小说</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</header>

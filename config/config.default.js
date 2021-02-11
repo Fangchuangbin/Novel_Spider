@@ -2,6 +2,7 @@
 
 'use strict';
 
+const fs = require('fs');
 const path = require('path');
 
 /**
@@ -20,13 +21,26 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = [];
 
-  //参数配置
+  // 参数配置
   config.basic = {
     //目标站点URL
     target: {
       url: 'https://www.ranwen8.com', // URL结尾不带斜杆
     }
-  }
+  };
+
+  // 模板配置
+  config.view = {
+    defaultViewEngine: 'nunjucks',
+    mapping: {
+      '.html': 'nunjucks',
+    },
+  };
+
+  //网站图标
+  config.siteFile = {
+    '/favicon.ico': fs.readFileSync('favicon.ico')
+  };
 
   // 安全策略
   config.security = {
@@ -38,7 +52,7 @@ module.exports = appInfo => {
   // 资源配置
   config.static = {
     prefix: '/',
-    dir: path.join(appInfo.baseDir, '/'),
+    // dir: path.join(appInfo.baseDir, '/'),
     buffer: false,
     preload: false
   };
@@ -46,10 +60,10 @@ module.exports = appInfo => {
   // 数据库配置
   config.mysql = {
     client: {
-      host: '120.78.188.217',
+      host: 'localhost', // 120.78.188.217
       port: '3306',
-      user: 'novel_spider',
-      password: 'qiVhQcLct1hx',
+      user: 'root',
+      password: 'root',
       database: 'novel_spider',
     },
     // 是否加载到 app 上，默认开启

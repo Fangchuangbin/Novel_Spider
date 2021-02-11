@@ -12,7 +12,10 @@
     "egg": "^2.15.1",
     "egg-mysql": "^3.0.0",
     "egg-scripts": "^2.11.0",
-    "moment": "^2.29.1"
+    "egg-view-nunjucks": "^2.3.0",
+    "mime-types": "^2.1.28",
+    "moment": "^2.29.1",
+    "random": "^2.2.0"
   },
   "devDependencies": {
     "autod": "^3.0.1",

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+  {% include "../common/header.html" %}
+  <div class="index container">
+    <div class="index-section-1 row">
+      <div class="col-md-9">
+        <ul class="recommend bg-yellow">
+          {% for item in recommend %}
+          <li>
+            <p class="img"><a href="{{ item.uri }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <div class="text">
+              <h6 class="title">
+                <p class="name"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+                <p class="writer">{{ item.writer }}</p>
+              </h6>
+              <p class="description">{{ item.description }}</p>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-3 pl-md-0 mt-3 mt-md-0">
+        <div class="hot-box bg-yellow">
+          <div class="box-title">热门小说</div>
+          <ul class="box-content px-2">
+            {% for item in hot %}
+            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="index-section-2 bg-yellow">
+      <div class="row mx-0 mt-3">
+        <div class="col-md-4 px-0 list-box">
+          <div class="box-title">玄幻小说</div>
+          <div class="img-content">
+            {% for item in xuanhuan %}
+              {% if loop.first %}
+            <p class="img"><a href="{{ item.uri }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <div class="content">
+              <p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+              <p class="description">{{ item.description }}</p>
+            </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <ul class="box-content">
+            {% for item in xuanhuan %}
+              {% if loop.index0 %}
+              <li><p class="title"><a href="{{ item.uri }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-md-4 px-0 list-box">
+          <div class="box-title">仙侠小说</div>
+          <div class="img-content">
+            {% for item in xianxia %}
+              {% if loop.first %}
+            <p class="img"><a href="{{ item.uri }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <div class="content">
+              <p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+              <p class="description">{{ item.description }}</p>
+            </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <ul class="box-content">
+            {% for item in xianxia %}
+              {% if loop.index0 %}
+              <li><p class="title"><a href="{{ item.uri }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-md-4 px-0 list-box">
+          <div class="box-title">都市小说</div>
+          <div class="img-content">
+            {% for item in dushi %}
+              {% if loop.first %}
+            <p class="img"><a href="{{ item.uri }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <div class="content">
+              <p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+              <p class="description">{{ item.description }}</p>
+            </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <ul class="box-content">
+            {% for item in dushi %}
+              {% if loop.index0 %}
+              <li><p class="title"><a href="{{ item.uri }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="index-section-2 bg-yellow">
+      <div class="row mx-0 mt-3">
+        <div class="col-md-4 px-0 list-box">
+          <div class="box-title">历史小说</div>
+          <div class="img-content">
+            {% for item in lishi %}
+              {% if loop.first %}
+            <p class="img"><a href="{{ item.uri }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <div class="content">
+              <p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+              <p class="description">{{ item.description }}</p>
+            </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <ul class="box-content">
+            {% for item in lishi %}
+              {% if loop.index0 %}
+              <li><p class="title"><a href="{{ item.uri }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-md-4 px-0 list-box">
+          <div class="box-title">科幻小说</div>
+          <div class="img-content">
+            {% for item in kehuan %}
+              {% if loop.first %}
+            <p class="img"><a href="{{ item.uri }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <div class="content">
+              <p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+              <p class="description">{{ item.description }}</p>
+            </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <ul class="box-content">
+            {% for item in kehuan %}
+              {% if loop.index0 %}
+              <li><p class="title"><a href="{{ item.uri }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-md-4 px-0 list-box">
+          <div class="box-title">网游小说</div>
+          <div class="img-content">
+            {% for item in wangyou %}
+              {% if loop.first %}
+            <p class="img"><a href="{{ item.uri }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <div class="content">
+              <p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+              <p class="description">{{ item.description }}</p>
+            </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <ul class="box-content">
+            {% for item in wangyou %}
+              {% if loop.index0 %}
+              <li><p class="title"><a href="{{ item.uri }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="index-section-3 mt-3 row">
+      <div class="col-md-9">
+        <div class="new-box bg-yellow">
+          <div class="box-title">最近更新</div>
+          <ul class="box-content">
+            {% for item in update %}
+            <li>
+              <p class="category">{{ item.category }}</p>
+              <p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+              <p class="chapter"><a href="{{ item.uri }}{{ item.chapter[0] }}.html">{{ item.chapter[1] }}</a></p>
+              <p class="writer">{{ item.writer }}</p>
+              <p class="date">{{ item.update_time }}</p>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3 pl-md-0 mt-3 mt-md-0">
+        <div class="hot-box bg-yellow">
+          <div class="box-title">猜你喜欢</div>
+          <ul class="box-content px-2">
+            {% for item in like %}
+            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="index-section-4 mt-3">
+      <div class="friend-link row">
+        <div class="col">
+          <div class="friend-link-title">友情链接</div>
+          <div class="friend-link-content">
+            <a href="">百度搜索</a>
+            <a href="">百度搜索</a>
+            <a href="">百度搜索</a>
+            <a href="">百度搜索</a>
+            <a href="">百度搜索</a>
+            <a href="">百度搜索</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include "../common/footer.html" %}
+</body>
+</html>

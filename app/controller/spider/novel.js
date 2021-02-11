@@ -5,21 +5,23 @@ const Crawler = require('crawler');
 const moment = require('moment');
 const crypto = require('crypto');
 
-class getNovelContentController extends Controller {
+class novelController extends Controller {
   async default() {
     const { ctx } = this;
     const targetURL = this.config.basic.target.url;
-    const getNovelURL = await ctx.curl(ctx.request.host + '/getNovelURL', {
+    var statusCode;
+    const getNovelURL = await ctx.curl(ctx.request.host + '/api/v1/spider/url', {
       dataType: 'json',
       timeout: 10000
     });
     if(getNovelURL.status !== 200) {
-      console.log('出现错误 => 状态码：' + getNovelURL.status + ' => 时间：' + moment().format('YYYY-MM-DD hh:mm:ss') + ' => 请求主机：' + ctx.request.host + ' => 请求URL：' + ctx.request.url)
+      console.log('出现错误 => 状态码：' + getNovelURL.status + ' => 时间：' + moment().format('YYYY-MM-DD hh:mm:ss') + ' => 请求URL：' + ctx.request.url);
     }else{
+      statusCode = getNovelURL.status;
       const spiderPromise = new Promise((resolve, reject) => {
         var c = new Crawler({
           maxConnections : 1,
-          rateLimit: 5000,
+          rateLimit: 1000,
           callback: function (error, response, done) {
             var spiderData = { uri: null, name: null, written: null, update_status: null, writer: null, category: null, description: null, chapter: [] };
             var spiderChapter = [];
@@ -48,25 +50,22 @@ class getNovelContentController extends Controller {
               if(spiderData.update_status == 'a') { spiderData.update_status = 1; }else{ spiderData.update_status = 0; } // 0 => 连载，1 => 完结
               spiderData.chapter = Array.from(new Set(spiderData.chapter)); // 去重
               spiderData.description = spiderData.description.replace(/\s+/g, ''); // 过滤空格
-              // spiderData.chapter = spiderData.chapter.reverse(); // 倒叙
-              const key = crypto.createHash('md5').update(spiderData.name).digest('hex'); // 文件秘钥
-              const setNovelContent = ctx.service.setNovelContent.default(spiderData, key); // 入库
+              const setNovelContent = ctx.service.spider.novel.default(spiderData); // 入库
               resolve(setNovelContent);
             }
             done();
-            
-            console.log('执行完毕 => 时间：' + moment().format('YYYY-MM-DD hh:mm:ss'));
+            console.log('抓取成功 => 书名：' + spiderData.name +  ' => 时间：' + moment().format('YYYY-MM-DD hh:mm:ss'));
           }
         });
-        c.queue(getNovelURL.data.result);
+        c.queue(getNovelURL.data.url);
       })
 
       const result = await spiderPromise;
       ctx.body = {
-        getStatus: getNovelURL.status,
+        status: statusCode,
         result
       };
     }
   }
 }
-module.exports = getNovelContentController;
+module.exports = novelController;

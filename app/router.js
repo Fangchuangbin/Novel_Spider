@@ -5,7 +5,11 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.get('/getNovelURL', controller.getNovelURL.default);
-  router.get('/getNovelContent', controller.getNovelContent.default);
-  router.post('/getNovelChapter', controller.getNovelChapter.default);
+  // 爬虫
+  router.get('/api/v1/spider/url', controller.spider.url.default);
+  router.get('/api/v1/spider/novel', controller.spider.novel.default);
+  // 图片解析
+  router.get('/img/:key', controller.website.img.default);
+  // 网站
+  router.get('/', controller.website.index.default);
 };
