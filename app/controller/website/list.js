@@ -12,9 +12,9 @@ class listController extends Controller {
     const allPage = 20; // 总页码
     var pageList = [];
     for(var i = 0; i < allPage; i++) {
-      var onePage = { pageLink: 'list_' + id + '_' + Number(i + 1), pageName: '第' + Number(i + 1) + '页', curPage: false };
-      if(page == Number(i + 1)) { onePage.curPage =  true };
-      pageList = pageList.concat(onePage);
+      var isPage = { pageLink: 'list_' + id + '_' + Number(i + 1), pageName: '第' + Number(i + 1) + '页', curPage: false };
+      if(page == Number(i + 1)) { isPage.curPage =  true };
+      pageList = pageList.concat(isPage);
     }
     var firstNum = Number(page) - 5;
     if(firstNum < 0) { firstNum = 0; }
