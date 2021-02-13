@@ -2,6 +2,7 @@ const Service = require('egg').Service;
 const moment = require('moment');
 const random = require('random');
 const crypto = require('crypto');
+const superagent = require('superagent');
 
 var result = { message: null, time: moment().format('YYYY-MM-DD hh:mm:ss') }
 
@@ -14,11 +15,29 @@ class contentService extends Service {
     var update_time = new Date().getTime(); // 更新时间
     var uri = spiderData.uri; // 源
     var name = spiderData.name; // 书名
-    var written = spiderData.written; // 封面
+    // var written = spiderData.written; // 封面
     var writer = spiderData.writer; // 作者
     var category = spiderData.category; // 分类
     var description = spiderData.description; // 描述
     var chapter = JSON.stringify(spiderData.chapter); // 全新章节
+
+    // 封面转换Base64
+    var written = await new Promise(async function (resolve, reject) {
+      var url = spiderData.written;
+      await superagent.get(url).buffer(true).parse((res) => {
+        let buffer = [];
+        res.on('data', (chunk) => {
+          buffer.push(chunk);
+        });
+        res.on('end', () => {
+          const data = Buffer.concat(buffer);
+          const base64Img = data.toString('base64');
+          resolve(base64Img);
+        });
+      });
+    })
+    written = 'data:image/jpeg;base64,' + written;
+
     // 查库
     const key = crypto.createHash('md5').update(spiderData.name).digest('hex'); // 文件秘钥
     const selectNovelContent = await app.mysql.get('novel_content', { name });

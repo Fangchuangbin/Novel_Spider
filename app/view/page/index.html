@@ -209,12 +209,9 @@
         <div class="col">
           <div class="friend-link-title">友情链接</div>
           <div class="friend-link-content">
-            <a href="">百度搜索</a>
-            <a href="">百度搜索</a>
-            <a href="">百度搜索</a>
-            <a href="">百度搜索</a>
-            <a href="">百度搜索</a>
-            <a href="">百度搜索</a>
+            {% for item in recommend %}
+            <a href="{{ item.uri }}">{{ item.name }}</a>
+            {% endfor %}
           </div>
         </div>
       </div>
