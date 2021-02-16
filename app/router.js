@@ -10,5 +10,6 @@ module.exports = app => {
   router.get('/api/v1/spider/novel', controller.spider.novel.default);
   // 网站
   router.get('/', controller.website.index.default);
-  router.get('/list_:idAndPage', controller.website.list.default);
+  router.get('/list_:idAndPage/', controller.website.list.default);
+  router.get('/book_:id/', controller.website.book.default);
 };

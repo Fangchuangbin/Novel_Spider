@@ -21,7 +21,7 @@ class indexController extends Controller {
     }
 
     // 获取推荐小说
-    const recommend = await ctx.service.website.index.recommend();
+    const recommend = await ctx.service.website.index.recommend(4);
     if(recommend.result.code !== 200) { console.log(recommend.result.message); }
 
     // 获取热门小说
@@ -54,7 +54,7 @@ class indexController extends Controller {
     if(wangyou.result.code !== 200) { console.log(wangyou.result.message); }
 
     await ctx.render('page/index', {
-      title: '笔趣阁',
+      sitename: '笔趣阁',
       keywords: '笔趣阁,无弹窗,小说阅读网,biquge',
       description: '笔趣阁是广大书友最值得收藏的网络小说阅读网,网站收录了当前最火热的网络小说,免费提供高质量的小说最新章节,是广大网络小说爱好者必备的小说阅读网.',
       category: category.data, // 分类

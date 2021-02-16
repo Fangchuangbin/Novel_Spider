@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ listname }} - {{ sitename }}</title>
+  <meta name="keywords" content="{{ keywords }}">
+  <meta name="description" content="{{ description }}">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+  {% include "../common/header.html" %}
+  <div class="list container">
+    <div class="list-section-1 row">
+      <div class="col">
+        <ul class="recommend bg-yellow">
+          {% for item in recommend %}
+          <li>
+            <p class="img"><a href="{{ item.uri }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <div class="text">
+              <h6 class="title">
+                <p class="name"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+                <p class="writer">{{ item.writer }}</p>
+              </h6>
+              <p class="description">{{ item.description }}</p>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="list-section-2 mt-3 row">
+      <div class="col-md-9">
+        <div class="new-box bg-yellow">
+          <div class="box-title">{{ listname }}的最近更新列表</div>
+          <ul class="box-content">
+            {% for item in listUpdate %}
+            <li>
+              <p class="category">{{ item.category }}</p>
+              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
+              <p class="chapter"><a href="../book_{{ item.id }}/{{ item.chapter[0] }}.html">{{ item.chapter[1] }}</a></p>
+              <p class="writer">{{ item.writer }}</p>
+              <p class="date">{{ item.update_time }}</p>
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="page-box">
+            <a href="{{ prevLink }}">上一页</a>
+            {% for item in pageList %}
+            <a class="{{ item.curPage }}" href="../{{ item.pageLink }}/">{{ item.pageName }}</a>
+            {% endfor %}
+            <a href="{{ nextLink }}">下一页</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 pl-md-0 mt-3 mt-md-0">
+        <div class="hot-box bg-yellow">
+          <div class="box-title">猜你喜欢</div>
+          <ul class="box-content px-2">
+            {% for item in update %}
+            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include "../common/footer.html" %}
+</body>
+</html>

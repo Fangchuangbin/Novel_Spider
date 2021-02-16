@@ -58,9 +58,9 @@ class indexService extends Service {
   }
 
   // 推荐
-  async recommend() {
+  async recommend(limit) {
     const { ctx, app } = this;
-    const data = await app.mysql.select('novel_content', { where: { recommend_status: 1 }, limit: 4, orders: [ [ 'update_time', 'desc' ] ] });
+    const data = await app.mysql.select('novel_content', { where: { recommend_status: 1 }, limit, orders: [ [ 'update_time', 'desc' ] ] });
     if(data) {
       result.code = 200;
       result.message = '获取推荐小说成功';
@@ -84,6 +84,8 @@ class indexService extends Service {
       return { result, data }
     }
   }
+
+  
 }
 
 module.exports = indexService;
