@@ -12,4 +12,5 @@ module.exports = app => {
   router.get('/', controller.website.index.default);
   router.get('/list_:idAndPage/', controller.website.list.default);
   router.get('/book_:id/', controller.website.book.default);
+  router.get('/book_:id/:chapter', controller.website.book.default);
 };

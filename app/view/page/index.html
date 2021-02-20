@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ sitename }}</title>
+  <title>{{ sitename }}_{{ keywords }}</title>
   <meta name="keywords" content="{{ keywords }}">
   <meta name="description" content="{{ description }}">
   <link rel="shortcut icon" href="/favicon.ico">
@@ -21,10 +21,10 @@
         <ul class="recommend bg-yellow">
           {% for item in recommend %}
           <li>
-            <p class="img"><a href="../book_{{ item.id }}/"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <p class="img"><a href="{{ item.uri }}" title="{{ item.name }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
             <div class="text">
               <h6 class="title">
-                <p class="name"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
+                <p class="name"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p>
                 <p class="writer">{{ item.writer }}</p>
               </h6>
               <p class="description">{{ item.description }}</p>
@@ -38,7 +38,7 @@
           <div class="box-title">热门小说</div>
           <ul class="box-content px-2">
             {% for item in hot %}
-            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
+            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
             {% endfor %}
           </ul>
         </div>
@@ -50,10 +50,10 @@
           <div class="box-title">玄幻小说</div>
           <div class="img-content">
             {% for item in xuanhuan %}
-              {% if loop.first %}
-            <p class="img"><a href="../book_{{ item.id }}/"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+              {% if loop.index < 2 %}
+            <p class="img"><a href="{{ item.uri }}" title="{{ item.name }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
             <div class="content">
-              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
+              <p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p>
               <p class="description">{{ item.description }}</p>
             </div>
               {% endif %}
@@ -62,7 +62,7 @@
           <ul class="box-content">
             {% for item in xuanhuan %}
               {% if loop.index0 %}
-              <li><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              <li><p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
               {% endif %}
             {% endfor %}
           </ul>
@@ -72,9 +72,9 @@
           <div class="img-content">
             {% for item in xianxia %}
               {% if loop.first %}
-            <p class="img"><a href="../book_{{ item.id }}/"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <p class="img"><a href="{{ item.uri }}" title="{{ item.name }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
             <div class="content">
-              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
+              <p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p>
               <p class="description">{{ item.description }}</p>
             </div>
               {% endif %}
@@ -83,7 +83,7 @@
           <ul class="box-content">
             {% for item in xianxia %}
               {% if loop.index0 %}
-              <li><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              <li><p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
               {% endif %}
             {% endfor %}
           </ul>
@@ -93,9 +93,9 @@
           <div class="img-content">
             {% for item in dushi %}
               {% if loop.first %}
-            <p class="img"><a href="../book_{{ item.id }}/"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <p class="img"><a href="{{ item.uri }}" title="{{ item.name }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
             <div class="content">
-              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
+              <p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p>
               <p class="description">{{ item.description }}</p>
             </div>
               {% endif %}
@@ -104,7 +104,7 @@
           <ul class="box-content">
             {% for item in dushi %}
               {% if loop.index0 %}
-              <li><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              <li><p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
               {% endif %}
             {% endfor %}
           </ul>
@@ -118,9 +118,9 @@
           <div class="img-content">
             {% for item in lishi %}
               {% if loop.first %}
-            <p class="img"><a href="../book_{{ item.id }}/"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <p class="img"><a href="{{ item.uri }}" title="{{ item.name }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
             <div class="content">
-              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
+              <p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p>
               <p class="description">{{ item.description }}</p>
             </div>
               {% endif %}
@@ -129,7 +129,7 @@
           <ul class="box-content">
             {% for item in lishi %}
               {% if loop.index0 %}
-              <li><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              <li><p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
               {% endif %}
             {% endfor %}
           </ul>
@@ -139,9 +139,9 @@
           <div class="img-content">
             {% for item in kehuan %}
               {% if loop.first %}
-            <p class="img"><a href="../book_{{ item.id }}/"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <p class="img"><a href="{{ item.uri }}" title="{{ item.name }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
             <div class="content">
-              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
+              <p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p>
               <p class="description">{{ item.description }}</p>
             </div>
               {% endif %}
@@ -150,7 +150,7 @@
           <ul class="box-content">
             {% for item in kehuan %}
               {% if loop.index0 %}
-              <li><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              <li><p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
               {% endif %}
             {% endfor %}
           </ul>
@@ -160,9 +160,9 @@
           <div class="img-content">
             {% for item in wangyou %}
               {% if loop.first %}
-            <p class="img"><a href="../book_{{ item.id }}/"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
+            <p class="img"><a href="{{ item.uri }}" title="{{ item.name }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
             <div class="content">
-              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
+              <p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p>
               <p class="description">{{ item.description }}</p>
             </div>
               {% endif %}
@@ -171,7 +171,7 @@
           <ul class="box-content">
             {% for item in wangyou %}
               {% if loop.index0 %}
-              <li><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
+              <li><p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a>/</p><p class="writer">{{ item.writer }}</p></li>
               {% endif %}
             {% endfor %}
           </ul>
@@ -186,8 +186,8 @@
             {% for item in update %}
             <li>
               <p class="category">{{ item.category }}</p>
-              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
-              <p class="chapter"><a href="../book_{{ item.id }}/{{ item.chapter[0] }}.html">{{ item.chapter[1] }}</a></p>
+              <p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p>
+              <p class="chapter"><a href="{{ item.uri }}{{ item.chapter[0] }}.html" title="{{ item.name }}">{{ item.chapter[1] }}</a></p>
               <p class="writer">{{ item.writer }}</p>
               <p class="date">{{ item.update_time }}</p>
             </li>
@@ -200,7 +200,7 @@
           <div class="box-title">猜你喜欢</div>
           <ul class="box-content px-2">
             {% for item in like %}
-            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
+            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
             {% endfor %}
           </ul>
         </div>
@@ -212,7 +212,7 @@
           <div class="friend-link-title">友情链接</div>
           <div class="friend-link-content">
             {% for item in recommend %}
-            <a href="../book_{{ item.id }}/">{{ item.name }}</a>
+            <a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a>
             {% endfor %}
           </div>
         </div>

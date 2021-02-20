@@ -42,8 +42,8 @@
             {% for item in listUpdate %}
             <li>
               <p class="category">{{ item.category }}</p>
-              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
-              <p class="chapter"><a href="../book_{{ item.id }}/{{ item.chapter[0] }}.html">{{ item.chapter[1] }}</a></p>
+              <p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p>
+              <p class="chapter"><a href="{{ item.uri }}{{ item.chapter[0] }}.html">{{ item.chapter[1] }}</a></p>
               <p class="writer">{{ item.writer }}</p>
               <p class="date">{{ item.update_time }}</p>
             </li>
@@ -63,7 +63,7 @@
           <div class="box-title">猜你喜欢</div>
           <ul class="box-content px-2">
             {% for item in update %}
-            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
+            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="{{ item.uri }}">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
             {% endfor %}
           </ul>
         </div>

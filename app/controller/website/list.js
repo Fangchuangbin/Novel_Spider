@@ -1,7 +1,7 @@
 'use strict';
 
 const Controller = require('egg').Controller;
-const moment = require('moment');
+const random = require('random');
 
 class listController extends Controller {
   async default() {
@@ -27,8 +27,16 @@ class listController extends Controller {
       case '4': listName = '历史小说'; break;
       case '5': listName = '科幻小说'; break;
       case '6': listName = '网游小说'; break;
+      case '7': listName = '完本小说'; break;
+      case '8': listName = '热门小说'; break;
+      default: listName = '其他小说';
     }
-    const selectAllPage = await ctx.service.website.list.allPage(listName); // 总页码
+    // const selectAllPage = await ctx.service.website.list.allPage(listName); // 总页码
+    var selectAllPage = []
+    const randLength = random.int(100, 9999);
+    for (var i = 0; i < Number(randLength); i++ ) {
+      selectAllPage = selectAllPage.concat(i);
+    }
     var allPage = 1;
     if(selectAllPage.length > 10) { allPage = Math.ceil(selectAllPage.length / 10); }
     if(page >= allPage) { nextLink = '../list_' + id + '_' + allPage + '/'; }
@@ -50,11 +58,12 @@ class listController extends Controller {
     if(category.result.code !== 200) { console.log(category.result.message); }
 
     // 获取推荐小说
-    const recommend = await ctx.service.website.index.recommend(6);
+    const recommend = await ctx.service.website.index.rand(6);
     if(recommend.result.code !== 200) { console.log(recommend.result.message); }
 
     // 获取列表最新小说
-    const listUpdate = await ctx.service.website.list.listUpdate(listName, page);
+    // const listUpdate = await ctx.service.website.list.listUpdate(listName, page);
+    const listUpdate = await ctx.service.website.list.rand(20);
     if(listUpdate.result.code !== 200) { console.log(listUpdate.result.message); ctx.status = 404; ctx.redirect('/'); return; }
     for( var i = 0; i < listUpdate.data.length; i++ ) {
       if(listUpdate.data[i].name == '') { listUpdate.data.splice(i, 1);
@@ -69,11 +78,16 @@ class listController extends Controller {
       }else{ update.data[i].chapter = update.data[i].chapter.split("###"); }
     }
 
+    // 网站信息
+    const host = ctx.request.header.host;
+    const website = await ctx.service.website.index.website(host);
+    if(website.result.code !== 200) { console.log(website.result.message); }
+    
     await ctx.render('page/list', {
       listname: listName,
-      sitename: '笔趣阁',
-      keywords: '关键字',
-      description: '网站描述',
+      sitename: website.data[0].sitename,
+      keywords: '免费的' + listName + ',推荐的' + listName + ',' + listName + 'txt下载',
+      description: website.data[0].description,
       category: category.data, // 分类
       recommend: recommend.data, // 推荐小说
       listUpdate: listUpdate.data, // 列表最近更新

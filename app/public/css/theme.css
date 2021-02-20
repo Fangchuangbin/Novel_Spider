@@ -113,6 +113,23 @@ ul,ol,li{list-style-type: none;padding: 0;margin: 0;}
 .page-box a{display: block;float: left;line-height: 25px;padding: 0 10px;border: 1px solid #e1eced;margin-right: 3px;background-color: #fff;color: #414549;}
 .page-box .cur{border-color: #468cc3;background-color: #468cc3;color: #fff;}
 
+.book-section-1{margin-top: 15px;border: 3px solid #c3dfea;font-size: 12px;}
+.book-section-1 .location-box{overflow: hidden;padding: 10px 15px;background-color: #e1eced;}
+.book-section-1 a{color: #6f78a7;}
+.book-section-1 .location-box a:nth-child(3){color: #414549;}
+.book-section-1 .book-box{overflow: hidden;padding: 15px 12px;}
+.book-section-1 .book-box img{height: 200px;padding: 10px;background-color: #e1eced;}
+.book-section-1 .book-box small{font-size: 14px;color: #6f78a7;}
+.book-section-1 .book-about{padding-bottom: 10px;margin-bottom: 10px;border-bottom: 2px dotted #c3dfea;}
+.book-section-1 .book-description{overflow: hidden;line-height: 27px;max-height: 115px;}
+.book-section-1 .book-recommend{overflow: hidden;}
+.book-section-1 .book-recommend a{color: #6f78a7;}
+.book-section-2{margin-top: 15px;border: 3px solid #c3dfea;}
+.book-section-2 .chapter-box{overflow: hidden;}
+.book-section-2 .chapter-title{line-height: 45px;font-weight: bold;font-size: 14px;background-color: #e1eced;}
+.book-section-2 .chapter-content p{float: left;width: 20%;display: flex;line-height: 40px;border-bottom: 1px dotted #c3dfea;height: 40px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.book-section-2 .chapter-content a{color: #6f78a7;font-size: 12px;}
+
 footer{font-size: 12px;color: #414549;padding: 20px 0;}
 
 @media screen and (max-width: 768px) {
@@ -131,4 +148,5 @@ footer{font-size: 12px;color: #414549;padding: 20px 0;}
   .box-content .title{width: auto;}
 
   .list-box .box-title{border-top: 1px solid #c3dfea;}
+  .list-section-1 .recommend li{width: calc(100%/1);}
 }

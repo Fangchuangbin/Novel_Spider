@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ listname }} - {{ sitename }}</title>
+  <title>{{ bookName }}txt下载_{{ bookName }}在线阅读 - {{ sitename }}</title>
   <meta name="keywords" content="{{ keywords }}">
   <meta name="description" content="{{ description }}">
   <link rel="shortcut icon" href="/favicon.ico">
@@ -15,57 +15,39 @@
 </head>
 <body>
   {% include "../common/header.html" %}
-  <div class="list container">
-    <div class="list-section-1 row">
-      <div class="col">
-        <ul class="recommend bg-yellow">
-          {% for item in recommend %}
-          <li>
-            <p class="img"><a href="{{ item.uri }}"><img src="{{ item.written }}" alt="{{ item.name }}"></a></p>
-            <div class="text">
-              <h6 class="title">
-                <p class="name"><a href="{{ item.uri }}">{{ item.name }}</a></p>
-                <p class="writer">{{ item.writer }}</p>
-              </h6>
-              <p class="description">{{ item.description }}</p>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
+  <div class="book container">
+    <div class="book-section-1">
+      <div class="location-box">
+        <a href="/">{{ sitename }}</a> > <a href="javascript:void(0);">{{ listName }}</a> > <a href="javascript:void(0);">{{ bookName }}</a>
       </div>
-    </div>
-    <div class="list-section-2 mt-3 row">
-      <div class="col-md-9">
-        <div class="new-box bg-yellow">
-          <div class="box-title">{{ listname }}的最近更新列表</div>
-          <ul class="box-content">
-            {% for item in listUpdate %}
-            <li>
-              <p class="category">{{ item.category }}</p>
-              <p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p>
-              <p class="chapter"><a href="../book_{{ item.id }}/{{ item.chapter[0] }}.html">{{ item.chapter[1] }}</a></p>
-              <p class="writer">{{ item.writer }}</p>
-              <p class="date">{{ item.update_time }}</p>
-            </li>
-            {% endfor %}
-          </ul>
-          <div class="page-box">
-            <a href="{{ prevLink }}">上一页</a>
-            {% for item in pageList %}
-            <a class="{{ item.curPage }}" href="../{{ item.pageLink }}/">{{ item.pageName }}</a>
-            {% endfor %}
-            <a href="{{ nextLink }}">下一页</a>
+      <div class="book-box row">
+        <div class="col-md-2"><img src="{{ bookMain.written }}" alt="{{ bookName }}"></div>
+        <div class="col-md-10 pl-md-4 mt-md-0 mt-3">
+          <h2>{{ bookName }}<small> / {{ bookMain.writer }}</small></h2>
+          <div class="book-about">
+            人气：{{ bookMain.hot }} / 更新时间：{{ bookMain.update_time }}
+          </div>
+          <div class="book-description">
+            简介：{{ bookMain.description }}
           </div>
         </div>
+        <div class="col-md-12 book-recommend mt-md-3">
+          推荐阅读：
+          {% for item in recommend %}
+          <a href="{{ item.uri }}" title="{{ item.name }}">{{ item.name }}</a>、
+          {% endfor %}
+        </div>
       </div>
-      <div class="col-md-3 pl-md-0 mt-3 mt-md-0">
-        <div class="hot-box bg-yellow">
-          <div class="box-title">猜你喜欢</div>
-          <ul class="box-content px-2">
-            {% for item in update %}
-            <li><p class="category">[{{ item.category }}]</p><p class="title"><a href="../book_{{ item.id }}/">{{ item.name }}</a></p><p class="writer">{{ item.writer }}</p></li>
+    </div>
+    <div class="book-section-2 container">
+      <div class="chapter-box row">
+        <div class="col p-3 p-md-0">
+          <div class="chapter-title p-0 px-md-3">{{ bookName }}最新章节(提示：已启用缓存技术，最新章节可能会延时显示，登录书架即可实时查看)</div>
+          <div class="chapter-content p-0 px-md-3">
+            {% for item in chapter %}
+            <p><a href="./{{ item[0] }}.html">{{ item[1] }}</a></p>
             {% endfor %}
-          </ul>
+          </div>
         </div>
       </div>
     </div>
